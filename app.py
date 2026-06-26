@@ -11,8 +11,7 @@ subjects = [
     "Hindi",
     "English",
     "Science",
-    "SS",
-    "Sports"
+    "SS"
 ]
 
 # ---------------- DATABASE ----------------
@@ -211,7 +210,6 @@ def add():
     return redirect("/dashboard")
 
 # ---------------- DONE TASK ----------------
-
 @app.route("/done/<int:id>")
 def done(id):
 
@@ -229,7 +227,6 @@ def done(id):
     return redirect("/dashboard")
 
 # ---------------- SUBJECT PAGE ----------------
-
 @app.route("/subject/<name>")
 def subject(name):
 
@@ -254,13 +251,6 @@ def subject(name):
         tasks=rows
     )
 
-# ---------------- SPORTS PAGE ----------------
-
-@app.route("/sports")
-def sports():
-
-    return render_template("sports.html")
-
 # ---------------- EXAM PAGE ----------------
 
 @app.route("/exam", methods=["GET", "POST"])
@@ -272,7 +262,7 @@ def exam():
 
         marks = []
 
-        for s in subjects[:-1]:
+        for s in subjects:
 
             value = request.form.get(s)
 
@@ -294,7 +284,7 @@ def exam():
 
     return render_template(
         "exam.html",
-        subjects=subjects[:-1],
+        subjects=subjects,
         result=result
     )
 
