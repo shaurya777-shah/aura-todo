@@ -210,6 +210,7 @@ def add():
     return redirect("/dashboard")
 
 # ---------------- DONE TASK ----------------
+
 @app.route("/done/<int:id>")
 def done(id):
 
@@ -227,6 +228,7 @@ def done(id):
     return redirect("/dashboard")
 
 # ---------------- SUBJECT PAGE ----------------
+
 @app.route("/subject/<name>")
 def subject(name):
 
@@ -291,5 +293,4 @@ def exam():
 # ---------------- RUN APP ----------------
 
 if __name__ == "__main__":
-
     app.run(debug=True)
