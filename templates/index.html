@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(to right, #74ebd5, #acb6e5);
+            padding: 20px;
+        }
+
+        .nav a {
+            margin-right: 10px;
+            text-decoration: none;
+            padding: 8px;
+            background: white;
+            border-radius: 5px;
+        }
+
+        .task {
+            background: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 10px;
+        }
+
+        .overdue { border-left: 8px solid red; }
+        .due_soon { border-left: 8px solid orange; }
+        .plenty_time { border-left: 8px solid green; }
+
+        .no_due_date { border-left: 8px solid gray; }
+    </style>
+</head>
+
+<body>
+
+<div class="nav">
+    <a href="/dashboard">Dashboard</a>
+    <a href="/sports">Sports</a>
+    <a href="/exam">Exam</a>
+    <a href="/logout">Logout</a>
+</div>
+
+<h2>Add Task</h2>
+
+<form method="POST" action="/add">
+    <input name="task" placeholder="Task" required>
+
+    <select name="subject">
+        {% for s in subjects %}
+        <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+    </select>
+
+    <input type="datetime-local" name="due" required>
+
+    <button type="submit">Add</button>
+</form>
+
+<h2>Your Tasks</h2>
+
+{% for t in tasks %}
+<div class="task {{ t.status }}">
+    <h3>{{ t.task }}</h3>
+    <p>Subject: {{ t.subject }}</p>
+    <p>Due: {{ t.due }}</p>
+
+    <a href="/done/{{ t.id }}">Done</a>
+</div>
+{% endfor %}
+
+</body>
+</html>

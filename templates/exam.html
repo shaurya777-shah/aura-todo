@@ -1,0 +1,20 @@
+<h2>Exam Analysis</h2>
+
+<form method="POST">
+
+{% for s in subjects %}
+<label>{{ s }}</label>
+<input name="{{ s }}" type="number" required>
+<br>
+{% endfor %}
+
+<button>Calculate</button>
+</form>
+
+{% if result %}
+<h3>Average: {{ result.avg }}</h3>
+<h3>Weak: {{ result.weakest }}</h3>
+<h3>Strong: {{ result.strongest }}</h3>
+
+<p>Study more: {{ result.weakest }}</p>
+{% endif %}

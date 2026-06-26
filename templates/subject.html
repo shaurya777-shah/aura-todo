@@ -1,0 +1,10 @@
+<h2>{{ subject }} Tasks</h2>
+
+{% for t in tasks %}
+<div>
+<p>{{ t.task }}</p>
+<p>{{ t.due }}</p>
+</div>
+{% endfor %}
+
+<a href="/">Back</a>

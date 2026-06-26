@@ -1,0 +1,81 @@
+body{
+    margin:0;
+    font-family:Arial;
+    background:linear-gradient(135deg,#89f7fe,#66a6ff);
+    min-height:100vh;
+}
+
+.sidebar{
+    width:230px;
+    height:100vh;
+    position:fixed;
+    background:#111827;
+    color:white;
+    padding:20px;
+}
+
+.sidebar h1{
+    color:#60a5fa;
+}
+
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    padding:12px;
+    margin-top:10px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.sidebar a:hover{
+    background:#2563eb;
+    transform:translateX(5px);
+}
+
+.main{
+    margin-left:260px;
+    padding:25px;
+}
+
+.card{
+    background:white;
+    padding:18px;
+    border-radius:15px;
+    margin-bottom:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.02);
+}
+
+input,select,button{
+    padding:10px;
+    border:none;
+    border-radius:10px;
+    margin:5px;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.overdue{
+    border-left:8px solid red;
+}
+
+.due_soon{
+    border-left:8px solid orange;
+}
+
+.ok{
+    border-left:8px solid green;
+}

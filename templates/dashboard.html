@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<div class="card">
+
+<form method="POST" action="/add">
+
+<input name="task" placeholder="Task" required>
+
+<select name="subject">
+
+{% for s in subjects %}
+<option>{{ s }}</option>
+{% endfor %}
+
+</select>
+
+<input type="datetime-local" name="due" required>
+
+<button>Add Task</button>
+
+</form>
+
+</div>
+
+{% for t in tasks %}
+
+<div class="card {{ t.status }}">
+
+<h3>{{ t.task }}</h3>
+
+<p>{{ t.subject }}</p>
+
+<p>{{ t.due }}</p>
+
+<a href="/done/{{ t.id }}">✔ Done</a>
+
+</div>
+
+{% endfor %}
+
+{% endblock %}
