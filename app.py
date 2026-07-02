@@ -67,7 +67,9 @@ def login():
         conn.close()
 
         if user:
+
             session["user"] = username
+
             return redirect("/dashboard")
 
         return "Invalid Login"
@@ -121,6 +123,7 @@ def home():
 def dashboard():
 
     if "user" not in session:
+
         return redirect("/login")
 
     conn = sqlite3.connect("users.db")
@@ -156,18 +159,23 @@ def dashboard():
                 diff = (due - now).total_seconds() / 3600
 
                 if due < now:
+
                     status = "overdue"
 
                 elif diff <= 3:
+
                     status = "due_soon"
 
                 else:
+
                     status = "ok"
 
             except:
+
                 status = "invalid"
 
         else:
+
             status = "no_date"
 
         tasks.append({
@@ -190,6 +198,7 @@ def dashboard():
 def add():
 
     if "user" not in session:
+
         return redirect("/login")
 
     task = request.form["task"]
@@ -233,6 +242,7 @@ def done(id):
 def subject(name):
 
     if "user" not in session:
+
         return redirect("/login")
 
     conn = sqlite3.connect("users.db")
@@ -269,8 +279,11 @@ def exam():
             value = request.form.get(s)
 
             if value:
+
                 marks.append(int(value))
+
             else:
+
                 marks.append(0)
 
         avg = sum(marks) / len(marks)
@@ -293,4 +306,5 @@ def exam():
 # ---------------- RUN APP ----------------
 
 if __name__ == "__main__":
+
     app.run(debug=True)

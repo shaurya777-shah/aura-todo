@@ -1,297 +1,127 @@
-from flask import Flask, render_template, request, redirect, session
-import sqlite3
-from datetime import datetime
+<!DOCTYPE html>
+<html>
 
-app = Flask(__name__)
-app.secret_key = "aura_secret_key"
+<head>
 
-subjects = [
-    "Maths",
-    "Gujarati",
-    "Hindi",
-    "English",
-    "Science",
-    "SS"
-]
+    <title>Aura Dashboard</title>
 
-# ---------------- DATABASE ----------------
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-def init_db():
+</head>
 
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
+<body>
 
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT,
-        password TEXT
-    )
-    """)
+    <div class="topbar">
 
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS tasks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        user TEXT,
-        task TEXT,
-        subject TEXT,
-        due TEXT
-    )
-    """)
+        <h1>⚡ Aura Dashboard</h1>
 
-    conn.commit()
-    conn.close()
+        <div>
 
-init_db()
+            <a href="/exam" class="nav-btn">
+                Exam Analyzer
+            </a>
 
-# ---------------- LOGIN ----------------
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
+        </div>
 
-    if request.method == "POST":
+    </div>
 
-        username = request.form["username"]
-        password = request.form["password"]
+    <div class="main-grid">
 
-        conn = sqlite3.connect("users.db")
-        c = conn.cursor()
+        <div class="card add-card">
 
-        c.execute(
-            "SELECT * FROM users WHERE username=? AND password=?",
-            (username, password)
-        )
+            <h2>Add New Task</h2>
 
-        user = c.fetchone()
+            <form action="/add" method="POST">
 
-        conn.close()
+                <input
+                    type="text"
+                    name="task"
+                    placeholder="Enter task..."
+                    required
+                >
 
-        if user:
-            session["user"] = username
-            return redirect("/dashboard")
+                <select name="subject">
 
-        return "Invalid Login"
+                    {% for subject in subjects %}
 
-    return render_template("login.html")
+                    <option value="{{subject}}">
+                        {{subject}}
+                    </option>
 
-# ---------------- REGISTER ----------------
+                    {% endfor %}
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
+                </select>
 
-    if request.method == "POST":
+                <input type="datetime-local" name="due">
 
-        username = request.form["username"]
-        password = request.form["password"]
+                <button type="submit">
+                    Add Task
+                </button>
 
-        conn = sqlite3.connect("users.db")
-        c = conn.cursor()
+            </form>
 
-        c.execute(
-            "INSERT INTO users VALUES (NULL, ?, ?)",
-            (username, password)
-        )
+        </div>
 
-        conn.commit()
-        conn.close()
+        <div class="card">
 
-        return redirect("/login")
+            <h2>Your Subjects</h2>
 
-    return render_template("register.html")
+            <div class="subjects-grid">
 
-# ---------------- LOGOUT ----------------
+                {% for subject in subjects %}
 
-@app.route("/logout")
-def logout():
+                <a
+                    href="/subject/{{subject}}"
+                    class="subject-box"
+                >
 
-    session.clear()
+                    {{subject}}
 
-    return redirect("/login")
+                </a>
 
-# ---------------- HOME ----------------
+                {% endfor %}
 
-@app.route("/")
-def home():
+            </div>
 
-    return redirect("/dashboard")
+        </div>
 
-# ---------------- DASHBOARD ----------------
+    </div>
 
-@app.route("/dashboard")
-def dashboard():
+    <div class="tasks-section">
 
-    if "user" not in session:
-        return redirect("/login")
+        <h2>📌 Your Tasks</h2>
 
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
+        {% for task in tasks %}
 
-    c.execute(
-        "SELECT * FROM tasks WHERE user=?",
-        (session["user"],)
-    )
+        <div class="task-card {{task.status}}">
 
-    rows = c.fetchall()
+            <div>
 
-    conn.close()
+                <h3>{{task.task}}</h3>
 
-    tasks = []
+                <p>{{task.subject}}</p>
 
-    now = datetime.now()
+                <p>{{task.due}}</p>
 
-    for r in rows:
+            </div>
 
-        due_raw = r[4]
-        status = "ok"
+            <a
+                href="/done/{{task.id}}"
+                class="done-btn"
+            >
+                Done
+            </a>
 
-        if due_raw and due_raw.strip():
+        </div>
 
-            try:
+        {% endfor %}
 
-                due = datetime.strptime(
-                    due_raw,
-                    "%Y-%m-%dT%H:%M"
-                )
+    </div>
 
-                diff = (due - now).total_seconds() / 3600
+</body>
 
-                if due < now:
-                    status = "overdue"
-
-                elif diff <= 3:
-                    status = "due_soon"
-
-                else:
-                    status = "ok"
-
-            except:
-                status = "invalid"
-
-        else:
-            status = "no_date"
-
-        tasks.append({
-            "id": r[0],
-            "task": r[2],
-            "subject": r[3],
-            "due": due_raw if due_raw else "No Due Date",
-            "status": status
-        })
-
-    return render_template(
-        "dashboard.html",
-        tasks=tasks,
-        subjects=subjects
-    )
-
-# ---------------- ADD TASK ----------------
-
-@app.route("/add", methods=["POST"])
-def add():
-
-    if "user" not in session:
-        return redirect("/login")
-
-    task = request.form["task"]
-    subject = request.form["subject"]
-    due = request.form["due"]
-
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-
-    c.execute(
-        "INSERT INTO tasks VALUES (NULL, ?, ?, ?, ?)",
-        (session["user"], task, subject, due)
-    )
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/dashboard")
-
-# ---------------- DONE TASK ----------------
-
-@app.route("/done/<int:id>")
-def done(id):
-
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-
-    c.execute(
-        "DELETE FROM tasks WHERE id=?",
-        (id,)
-    )
-
-    conn.commit()
-    conn.close()
-
-    return redirect("/dashboard")
-
-# ---------------- SUBJECT PAGE ----------------
-
-@app.route("/subject/<name>")
-def subject(name):
-
-    if "user" not in session:
-        return redirect("/login")
-
-    conn = sqlite3.connect("users.db")
-    c = conn.cursor()
-
-    c.execute(
-        "SELECT * FROM tasks WHERE user=? AND subject=?",
-        (session["user"], name)
-    )
-
-    rows = c.fetchall()
-
-    conn.close()
-
-    return render_template(
-        "subject.html",
-        subject=name,
-        tasks=rows
-    )
-
-# ---------------- EXAM PAGE ----------------
-
-@app.route("/exam", methods=["GET", "POST"])
-def exam():
-
-    result = None
-
-    if request.method == "POST":
-
-        marks = []
-
-        for s in subjects:
-
-            value = request.form.get(s)
-
-            if value:
-                marks.append(int(value))
-            else:
-                marks.append(0)
-
-        avg = sum(marks) / len(marks)
-
-        weakest = subjects[
-            marks.index(min(marks))
-        ]
-
-        result = {
-            "avg": round(avg, 2),
-            "weakest": weakest
-        }
-
-    return render_template(
-        "exam.html",
-        subjects=subjects,
-        result=result
-    )
-
-# ---------------- RUN APP ----------------
-
-if __name__ == "__main__":
-
-    app.run(debug=True)
+</html>
