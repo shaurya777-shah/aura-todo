@@ -260,3 +260,70 @@ button:hover{
     }
 
 }
+.subject-page{
+    padding:20px;
+}
+
+.empty-box{
+    background:rgba(255,255,255,0.1);
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    color:white;
+    margin-top:20px;
+}
+
+@media(max-width:768px){
+
+    .topbar{
+        flex-direction:column;
+        text-align:center;
+        gap:15px;
+        padding:20px;
+    }
+
+    .topbar h1{
+        font-size:28px;
+    }
+
+    .main-grid{
+        grid-template-columns:1fr;
+        padding:15px;
+    }
+
+    .subjects-grid{
+        grid-template-columns:1fr;
+    }
+
+    .tasks-section{
+        padding:15px;
+    }
+
+    .task-card{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .done-btn{
+        width:100%;
+        text-align:center;
+        box-sizing:border-box;
+    }
+
+    .subject-page{
+        padding:15px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    input,
+    select,
+    button{
+        width:100%;
+        box-sizing:border-box;
+    }
+
+}

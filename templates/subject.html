@@ -1,10 +1,124 @@
-<h2>{{ subject }} Tasks</h2>
+<!DOCTYPE html>
+<html>
 
-{% for t in tasks %}
-<div>
-<p>{{ t.task }}</p>
-<p>{{ t.due }}</p>
-</div>
-{% endfor %}
+<head>
 
-<a href="/">Back</a>
+    <title>{{subject}} Tasks</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="topbar">
+
+        <h1>📚 {{subject}}</h1>
+
+        <div>
+
+            <a href="/dashboard" class="nav-btn">
+                Dashboard
+            </a>
+
+            <a href="/exam" class="nav-btn">
+                Exam
+            </a>
+
+            <a href="/logout" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="subject-page">
+
+        <div class="card">
+
+            <h2>Add New {{subject}} Task</h2>
+
+            <form action="/add" method="POST">
+
+                <input
+                    type="text"
+                    name="task"
+                    placeholder="Enter task..."
+                    required
+                >
+
+                <input
+                    type="hidden"
+                    name="subject"
+                    value="{{subject}}"
+                >
+
+                <input
+                    type="datetime-local"
+                    name="due"
+                >
+
+                <button type="submit">
+                    Add Task
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="tasks-section">
+
+            <h2>📌 {{subject}} Tasks</h2>
+
+            {% if tasks %}
+
+                {% for task in tasks %}
+
+                <div class="task-card">
+
+                    <div>
+
+                        <h3>{{task[2]}}</h3>
+
+                        <p>
+                            Due:
+                            {{task[4] if task[4] else "No Due Date"}}
+                        </p>
+
+                    </div>
+
+                    <a
+                        href="/done/{{task[0]}}"
+                        class="done-btn"
+                    >
+                        Done
+                    </a>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="empty-box">
+
+                    <h3>No tasks yet for {{subject}}</h3>
+
+                    <p>
+                        Add your first task above 🚀
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
