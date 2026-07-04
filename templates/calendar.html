@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Calendar</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="topbar">
+
+        <h1>📅 Calendar View</h1>
+
+        <a href="/dashboard" class="nav-btn">
+            Dashboard
+        </a>
+
+    </div>
+
+    <div class="tasks-section">
+
+        {% for task in tasks %}
+
+        <div class="task-card">
+
+            <div>
+
+                <h3>{{task[2]}}</h3>
+
+                <p>{{task[3]}}</p>
+
+                <p>
+
+                    📅
+
+                    {% if task[4] %}
+
+                        {{ task[4][8:10] }}/{{ task[4][5:7] }}/{{ task[4][0:4] }}
+
+                        •
+
+                        {{ task[4][11:16] }}
+
+                    {% else %}
+
+                        No Due Date
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</body>
+
+</html>

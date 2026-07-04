@@ -31,6 +31,12 @@
 
     </div>
 
+    <div class="xp-card">
+
+        ⭐ XP Points: {{xp}}
+
+    </div>
+
     <div class="main-grid">
 
         <div class="card add-card">
@@ -68,29 +74,6 @@
 
         </div>
 
-        <div class="card">
-
-            <h2>Your Subjects</h2>
-
-            <div class="subjects-grid">
-
-                {% for subject in subjects %}
-
-                <a
-                    href="/subject/{{subject}}"
-                    class="subject-box"
-                >
-
-                    {{subject}}
-
-                </a>
-
-                {% endfor %}
-
-            </div>
-
-        </div>
-
     </div>
 
     {% set due_soon_tasks = tasks | selectattr("status", "equalto", "due_soon") | list %}
@@ -119,64 +102,67 @@
 
         <h2>📌 Your Tasks</h2>
 
-        {% if tasks %}
+        {% for task in tasks %}
 
-            {% for task in tasks %}
+        <div class="task-card {{task.status}}">
 
-            <div class="task-card {{task.status}}">
+            <div>
 
-                <div>
+                <h3>{{task.task}}</h3>
 
-                    <h3>{{task.task}}</h3>
-
-                    <p>{{task.subject}}</p>
-
-                    <p>
-
-                        📅
-
-                        {% if task.due != "No Due Date" %}
-
-                            {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
-
-                            •
-
-                            {{ task.due[11:16] }}
-
-                        {% else %}
-
-                            No Due Date
-
-                        {% endif %}
-
-                    </p>
-
-                </div>
-
-                <a
-                    href="/done/{{task.id}}"
-                    class="done-btn"
-                >
-                    Done
-                </a>
-
-            </div>
-
-            {% endfor %}
-
-        {% else %}
-
-            <div class="empty-box">
-
-                <h3>No tasks yet</h3>
+                <p>{{task.subject}}</p>
 
                 <p>
-                    Add your first task 🚀
+
+                    📅
+
+                    {% if task.due != "No Due Date" %}
+
+                        {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
+
+                        •
+
+                        {{ task.due[11:16] }}
+
+                    {% else %}
+
+                        No Due Date
+
+                    {% endif %}
+
                 </p>
 
             </div>
 
-        {% endif %}
+            <a
+                href="/done/{{task.id}}"
+                class="done-btn"
+            >
+                Done
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    <div class="mobile-nav">
+
+        <a href="/dashboard">
+            🏠
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/calendar">
+            📅
+            <span>Calendar</span>
+        </a>
+
+        <a href="/exam">
+            📊
+            <span>Exam</span>
+        </a>
 
     </div>
 
