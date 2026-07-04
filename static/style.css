@@ -71,9 +71,7 @@ body{
 
 .topbar h1{
     font-size:32px;
-    background:linear-gradient(90deg,#7c3aed,#ec4899);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    color:#7c3aed;
 }
 
 /* ---------------- BUTTONS ---------------- */
