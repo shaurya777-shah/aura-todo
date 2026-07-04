@@ -472,6 +472,14 @@ button:hover{
     0 10px 35px rgba(124,58,237,0.4);
 
     transition:0.35s ease;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding-bottom:4px;
 }
 
 .floating-add-btn:hover{
@@ -572,6 +580,10 @@ button:hover{
     background:#f3f4f6;
 
     color:#7c3aed;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 /* ---------------- MOBILE NAV ---------------- */
