@@ -327,3 +327,39 @@ button:hover{
     }
 
 }
+.reminder-box{
+    margin:20px;
+    padding:20px;
+    border-radius:20px;
+    background:linear-gradient(135deg,#ff9800,#ff5722);
+    color:white;
+    box-shadow:0 0 20px rgba(0,0,0,0.2);
+    animation:pulse 2s infinite;
+}
+
+.reminder-box h2{
+    margin-top:0;
+}
+
+.reminder-item{
+    margin-top:10px;
+    padding:12px;
+    background:rgba(255,255,255,0.15);
+    border-radius:12px;
+}
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.01);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+
+}

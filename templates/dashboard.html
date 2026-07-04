@@ -93,52 +93,90 @@
 
     </div>
 
-    <div class="tasks-section">
+    {% set due_soon_tasks = tasks | selectattr("status", "equalto", "due_soon") | list %}
 
-        <h2>📌 Your Tasks</h2>
+    {% if due_soon_tasks %}
 
-        {% for task in tasks %}
+    <div class="reminder-box">
 
-        <div class="task-card {{task.status}}">
+        <h2>⏰ Upcoming Reminders</h2>
 
-            <div>
+        {% for task in due_soon_tasks %}
 
-                <h3>{{task.task}}</h3>
+        <div class="reminder-item">
 
-                <p>{{task.subject}}</p>
-
-                <p>
-
-                    📅
-
-                    {% if task.due != "No Due Date" %}
-
-                        {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
-
-                        •
-
-                        {{ task.due[11:16] }}
-
-                    {% else %}
-
-                        No Due Date
-
-                    {% endif %}
-
-                </p>
-
-            </div>
-
-            <a
-                href="/done/{{task.id}}"
-                class="done-btn"
-            >
-                Done
-            </a>
+            🔔 "{{task.task}}" is due soon!
 
         </div>
 
         {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    <div class="tasks-section">
+
+        <h2>📌 Your Tasks</h2>
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+            <div class="task-card {{task.status}}">
+
+                <div>
+
+                    <h3>{{task.task}}</h3>
+
+                    <p>{{task.subject}}</p>
+
+                    <p>
+
+                        📅
+
+                        {% if task.due != "No Due Date" %}
+
+                            {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
+
+                            •
+
+                            {{ task.due[11:16] }}
+
+                        {% else %}
+
+                            No Due Date
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="/done/{{task.id}}"
+                    class="done-btn"
+                >
+                    Done
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty-box">
+
+                <h3>No tasks yet</h3>
+
+                <p>
+                    Add your first task 🚀
+                </p>
+
+            </div>
+
+        {% endif %}
 
     </div>
 
