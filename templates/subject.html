@@ -3,136 +3,31 @@
 
 <head>
 
-    <title>{{subject}} Tasks</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>{{subject}}</title>
 
 </head>
 
 <body>
 
-    <div class="topbar">
+    <h1>{{subject}} Tasks</h1>
 
-        <h1>📚 {{subject}}</h1>
+    <a href="/dashboard">Dashboard</a>
 
-        <div>
+    <hr>
 
-            <a href="/dashboard" class="nav-btn">
-                Dashboard
-            </a>
+    {% for task in tasks %}
 
-            <a href="/exam" class="nav-btn">
-                Exam
-            </a>
+    <div>
 
-            <a href="/logout" class="logout-btn">
-                Logout
-            </a>
+        <h3>{{task[2]}}</h3>
 
-        </div>
+        <p>{{task[4]}}</p>
 
     </div>
 
-    <div class="subject-page">
+    <hr>
 
-        <div class="card">
-
-            <h2>Add New {{subject}} Task</h2>
-
-            <form action="/add" method="POST">
-
-                <input
-                    type="text"
-                    name="task"
-                    placeholder="Enter task..."
-                    required
-                >
-
-                <input
-                    type="hidden"
-                    name="subject"
-                    value="{{subject}}"
-                >
-
-                <input
-                    type="datetime-local"
-                    name="due"
-                >
-
-                <button type="submit">
-                    Add Task
-                </button>
-
-            </form>
-
-        </div>
-
-        <div class="tasks-section">
-
-            <h2>📌 {{subject}} Tasks</h2>
-
-            {% if tasks %}
-
-                {% for task in tasks %}
-
-                <div class="task-card">
-
-                    <div>
-
-                        <h3>{{task[2]}}</h3>
-
-                        <p>
-
-                            📅
-
-                            {% if task[4] %}
-
-                                {{ task[4][8:10] }}/{{ task[4][5:7] }}/{{ task[4][0:4] }}
-
-                                •
-
-                                {{ task[4][11:16] }}
-
-                            {% else %}
-
-                                No Due Date
-
-                            {% endif %}
-
-                        </p>
-
-                    </div>
-
-                    <a
-                        href="/done/{{task[0]}}"
-                        class="done-btn"
-                    >
-                        Done
-                    </a>
-
-                </div>
-
-                {% endfor %}
-
-            {% else %}
-
-                <div class="empty-box">
-
-                    <h3>No tasks yet for {{subject}}</h3>
-
-                    <p>
-                        Add your first task above 🚀
-                    </p>
-
-                </div>
-
-            {% endif %}
-
-        </div>
-
-    </div>
+    {% endfor %}
 
 </body>
 
