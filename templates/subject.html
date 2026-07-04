@@ -76,10 +76,6 @@
                 Dashboard
             </a>
 
-            <a href="/calendar" class="nav-btn">
-                Calendar
-            </a>
-
         </div>
 
     </div>
@@ -134,8 +130,6 @@
 
         {% endif %}
 
-        <!-- WEEKLY CALENDAR -->
-
         <div class="weekly-calendar">
 
             <h2 style="margin-bottom:20px;color:#7c3aed;">
@@ -143,8 +137,6 @@
             </h2>
 
             <div class="calendar-grid">
-
-                <!-- HEADER -->
 
                 <div class="calendar-header">
                     Time
@@ -157,8 +149,6 @@
                 <div class="calendar-header">Friday</div>
                 <div class="calendar-header">Saturday</div>
                 <div class="calendar-header">Sunday</div>
-
-                <!-- TIME SLOTS -->
 
                 {% for hour in range(6,23) %}
 
@@ -209,11 +199,6 @@
         <a href="/dashboard">
             🏠
             <span>Dashboard</span>
-        </a>
-
-        <a href="/calendar">
-            📅
-            <span>Calendar</span>
         </a>
 
         <a href="/exam">

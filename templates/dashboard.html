@@ -15,12 +15,12 @@
 
     <div class="topbar">
 
-        <h1>⚡ Aura Dashboard</h1>
+        <h1>✨ Aura Dashboard</h1>
 
         <div>
 
             <a href="/exam" class="nav-btn">
-                Exam Analyzer
+                Exam
             </a>
 
             <a href="/logout" class="logout-btn">
@@ -33,32 +33,35 @@
 
     <div class="main-grid">
 
-        <div class="card add-card">
+        <div class="card">
 
-            <h2>Add New Task</h2>
+            <h2>➕ Add Task</h2>
 
             <form action="/add" method="POST">
 
                 <input
                     type="text"
                     name="task"
-                    placeholder="Enter task..."
+                    placeholder="Enter Task"
                     required
                 >
 
                 <select name="subject">
 
-                    {% for subject in subjects %}
+                    {% for s in subjects %}
 
-                    <option value="{{subject}}">
-                        {{subject}}
+                    <option value="{{s}}">
+                        {{s}}
                     </option>
 
                     {% endfor %}
 
                 </select>
 
-                <input type="datetime-local" name="due">
+                <input
+                    type="datetime-local"
+                    name="due"
+                >
 
                 <button type="submit">
                     Add Task
@@ -70,19 +73,17 @@
 
         <div class="card">
 
-            <h2>Your Subjects</h2>
+            <h2>📚 Subjects</h2>
 
             <div class="subjects-grid">
 
-                {% for subject in subjects %}
+                {% for s in subjects %}
 
                 <a
-                    href="/subject/{{subject}}"
+                    href="/subject/{{s}}"
                     class="subject-box"
                 >
-
-                    {{subject}}
-
+                    {{s}}
                 </a>
 
                 {% endfor %}
@@ -95,53 +96,65 @@
 
     <div class="tasks-section">
 
-        <h2>📌 Your Tasks</h2>
+        <h2>📌 Upcoming Tasks</h2>
 
-        {% for task in tasks %}
+        {% if tasks %}
 
-        <div class="task-card {{task.status}}">
+            {% for task in tasks %}
 
-            <div>
+            <div class="task-card {{task.status}}">
 
-                <h3>{{task.task}}</h3>
+                <div>
 
-                <p>{{task.subject}}</p>
+                    <h3>{{task.task}}</h3>
 
-                <p
-                    class="due-time"
-                    data-raw="{{task.due}}"
+                    <p>📚 {{task.subject}}</p>
+
+                    <p
+                        class="due-time"
+                        data-raw="{{task.due}}"
+                    >
+
+                        📅
+
+                        {% if task.due != "No Due Date" %}
+
+                            {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
+
+                            •
+
+                            {{ task.due[11:16] }}
+
+                        {% else %}
+
+                            No Due Date
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <a
+                    href="/done/{{task.id}}"
+                    class="done-btn"
                 >
-
-                    📅
-
-                    {% if task.due != "No Due Date" %}
-
-                        {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
-
-                        •
-
-                        {{ task.due[11:16] }}
-
-                    {% else %}
-
-                        No Due Date
-
-                    {% endif %}
-
-                </p>
+                    Done
+                </a>
 
             </div>
 
-            <a
-                href="/done/{{task.id}}"
-                class="done-btn"
-            >
-                Done
-            </a>
+            {% endfor %}
 
-        </div>
+        {% else %}
 
-        {% endfor %}
+            <div class="card">
+
+                <h3>No tasks yet</h3>
+
+            </div>
+
+        {% endif %}
 
     </div>
 
@@ -150,11 +163,6 @@
         <a href="/dashboard">
             🏠
             <span>Dashboard</span>
-        </a>
-
-        <a href="/calendar">
-            📅
-            <span>Calendar</span>
         </a>
 
         <a href="/exam">
