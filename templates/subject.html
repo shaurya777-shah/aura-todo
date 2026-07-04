@@ -5,29 +5,102 @@
 
     <title>{{subject}}</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 
 <body>
 
-    <h1>{{subject}} Tasks</h1>
+    <div class="topbar">
 
-    <a href="/dashboard">Dashboard</a>
+        <h1>📚 {{subject}}</h1>
 
-    <hr>
+        <div>
 
-    {% for task in tasks %}
+            <a href="/dashboard" class="nav-btn">
+                Dashboard
+            </a>
 
-    <div>
+            <a href="/calendar" class="nav-btn">
+                Calendar
+            </a>
 
-        <h3>{{task[2]}}</h3>
-
-        <p>{{task[4]}}</p>
+        </div>
 
     </div>
 
-    <hr>
+    <div class="tasks-section">
 
-    {% endfor %}
+        <h2>{{subject}} Tasks</h2>
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+            <div class="task-card">
+
+                <div>
+
+                    <h3>{{task[2]}}</h3>
+
+                    <p>
+
+                        📅
+
+                        {% if task[4] %}
+
+                            {{ task[4][8:10] }}/{{ task[4][5:7] }}/{{ task[4][0:4] }}
+
+                            •
+
+                            {{ task[4][11:16] }}
+
+                        {% else %}
+
+                            No Due Date
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="card">
+
+                <h3>No tasks added yet</h3>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <div class="mobile-nav">
+
+        <a href="/dashboard">
+            🏠
+            <span>Dashboard</span>
+        </a>
+
+        <a href="/calendar">
+            📅
+            <span>Calendar</span>
+        </a>
+
+        <a href="/exam">
+            📊
+            <span>Exam</span>
+        </a>
+
+    </div>
 
 </body>
 

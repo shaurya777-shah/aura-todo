@@ -1,14 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    if ("Notification" in window) {
+    if (!("Notification" in window)) {
 
-        if (Notification.permission !== "granted") {
+        alert("Browser does not support notifications");
 
-            Notification.requestPermission();
+        return;
+
+    }
+
+    Notification.requestPermission().then(permission => {
+
+        if (permission === "granted") {
+
+            checkTasks();
 
         }
 
-    }
+    });
+
+});
+
+function checkTasks() {
 
     const taskCards = document.querySelectorAll(".task-card");
 
@@ -20,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const dueRaw = dueElement.dataset.raw;
 
-        if (!dueRaw) return;
+        if (!dueRaw || dueRaw === "No Due Date") return;
 
         const dueDate = new Date(dueRaw);
 
@@ -34,24 +46,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const taskName = card.querySelector("h3").innerText;
 
-            showNotification(taskName);
+            new Notification("⏰ Aura Reminder", {
+
+                body: `${taskName} is due soon!`
+
+            });
 
         }
 
     });
-
-});
-
-function showNotification(taskName) {
-
-    if (Notification.permission === "granted") {
-
-        new Notification("⏰ Aura Reminder", {
-
-            body: `"${taskName}" is due soon!`
-
-        });
-
-    }
 
 }
