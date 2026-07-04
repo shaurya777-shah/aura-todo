@@ -31,12 +31,6 @@
 
     </div>
 
-    <div class="xp-card">
-
-        ⭐ XP Points: {{xp}}
-
-    </div>
-
     <div class="main-grid">
 
         <div class="card add-card">
@@ -71,6 +65,29 @@
                 </button>
 
             </form>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Your Subjects</h2>
+
+            <div class="subjects-grid">
+
+                {% for subject in subjects %}
+
+                <a
+                    href="/subject/{{subject}}"
+                    class="subject-box"
+                >
+
+                    {{subject}}
+
+                </a>
+
+                {% endfor %}
+
+            </div>
 
         </div>
 

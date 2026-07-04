@@ -1,7 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    // ---------------- ASK NOTIFICATION PERMISSION ----------------
-
     if ("Notification" in window) {
 
         if (Notification.permission !== "granted") {
@@ -11,8 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
     }
-
-    // ---------------- GET TASKS ----------------
 
     const taskCards = document.querySelectorAll(".task-card");
 
@@ -34,8 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const diffHours = diffMs / (1000 * 60 * 60);
 
-        // ---------------- DUE SOON ----------------
-
         if (diffHours > 0 && diffHours <= 4) {
 
             const taskName = card.querySelector("h3").innerText;
@@ -48,16 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-// ---------------- SHOW NOTIFICATION ----------------
-
 function showNotification(taskName) {
 
     if (Notification.permission === "granted") {
 
         new Notification("⏰ Aura Reminder", {
 
-            body: `"${taskName}" is due soon!`,
-            icon: "https://cdn-icons-png.flaticon.com/512/1827/1827392.png"
+            body: `"${taskName}" is due soon!`
 
         });
 

@@ -39,13 +39,6 @@ def init_db():
     )
     """)
 
-    c.execute("""
-    CREATE TABLE IF NOT EXISTS xp (
-        user TEXT,
-        points INTEGER
-    )
-    """)
-
     conn.commit()
     conn.close()
 
@@ -101,11 +94,6 @@ def register():
             (username, password)
         )
 
-        c.execute(
-            "INSERT INTO xp VALUES (?, ?)",
-            (username, 0)
-        )
-
         conn.commit()
         conn.close()
 
@@ -147,6 +135,8 @@ def dashboard():
     )
 
     rows = c.fetchall()
+
+    conn.close()
 
     tasks = []
 
@@ -202,22 +192,10 @@ def dashboard():
 
     tasks.sort(key=lambda x: x["sort_due"])
 
-    c.execute(
-        "SELECT points FROM xp WHERE user=?",
-        (session["user"],)
-    )
-
-    xp_data = c.fetchone()
-
-    xp = xp_data[0] if xp_data else 0
-
-    conn.close()
-
     return render_template(
         "dashboard.html",
         tasks=tasks,
-        subjects=subjects,
-        xp=xp
+        subjects=subjects
     )
 
 # ---------------- ADD TASK ----------------
@@ -257,11 +235,6 @@ def done(id):
     c.execute(
         "DELETE FROM tasks WHERE id=?",
         (id,)
-    )
-
-    c.execute(
-        "UPDATE xp SET points = points + 10 WHERE user=?",
-        (session["user"],)
     )
 
     conn.commit()

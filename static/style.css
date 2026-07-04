@@ -398,14 +398,3 @@ button:hover{
 
 }
 
-.xp-card{
-    margin:20px;
-    padding:18px;
-    border-radius:20px;
-    background:linear-gradient(135deg,#7b2ff7,#f107a3);
-    color:white;
-    font-size:22px;
-    font-weight:bold;
-    text-align:center;
-    box-shadow:0 0 20px rgba(0,0,0,0.2);
-}
