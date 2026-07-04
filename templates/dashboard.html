@@ -76,28 +76,6 @@
 
     </div>
 
-    {% set due_soon_tasks = tasks | selectattr("status", "equalto", "due_soon") | list %}
-
-    {% if due_soon_tasks %}
-
-    <div class="reminder-box">
-
-        <h2>⏰ Upcoming Reminders</h2>
-
-        {% for task in due_soon_tasks %}
-
-        <div class="reminder-item">
-
-            🔔 "{{task.task}}" is due soon!
-
-        </div>
-
-        {% endfor %}
-
-    </div>
-
-    {% endif %}
-
     <div class="tasks-section">
 
         <h2>📌 Your Tasks</h2>
@@ -112,7 +90,10 @@
 
                 <p>{{task.subject}}</p>
 
-                <p>
+                <p
+                    class="due-time"
+                    data-raw="{{task.due}}"
+                >
 
                     📅
 
@@ -165,6 +146,8 @@
         </a>
 
     </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 
