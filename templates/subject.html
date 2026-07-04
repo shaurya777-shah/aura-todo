@@ -9,6 +9,59 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
+    <style>
+
+        .weekly-calendar{
+            margin-top:40px;
+            overflow-x:auto;
+        }
+
+        .calendar-grid{
+            display:grid;
+            grid-template-columns:120px repeat(7,1fr);
+            min-width:1000px;
+            background:rgba(255,255,255,0.7);
+            backdrop-filter:blur(12px);
+            border-radius:25px;
+            overflow:hidden;
+            box-shadow:0 8px 30px rgba(0,0,0,0.08);
+        }
+
+        .calendar-header{
+            background:linear-gradient(135deg,#60a5fa,#a78bfa);
+            color:white;
+            padding:16px;
+            text-align:center;
+            font-weight:bold;
+            border:1px solid rgba(255,255,255,0.2);
+        }
+
+        .time-slot{
+            background:rgba(255,255,255,0.8);
+            padding:18px;
+            border:1px solid rgba(0,0,0,0.05);
+            min-height:80px;
+            position:relative;
+        }
+
+        .time-label{
+            font-weight:bold;
+            color:#7c3aed;
+            background:#f8fafc;
+        }
+
+        .task-pill{
+            background:linear-gradient(135deg,#34d399,#10b981);
+            color:white;
+            padding:8px;
+            border-radius:12px;
+            font-size:13px;
+            margin-top:5px;
+            box-shadow:0 4px 10px rgba(0,0,0,0.08);
+        }
+
+    </style>
+
 </head>
 
 <body>
@@ -80,6 +133,74 @@
             </div>
 
         {% endif %}
+
+        <!-- WEEKLY CALENDAR -->
+
+        <div class="weekly-calendar">
+
+            <h2 style="margin-bottom:20px;color:#7c3aed;">
+                📅 Weekly Schedule
+            </h2>
+
+            <div class="calendar-grid">
+
+                <!-- HEADER -->
+
+                <div class="calendar-header">
+                    Time
+                </div>
+
+                <div class="calendar-header">Monday</div>
+                <div class="calendar-header">Tuesday</div>
+                <div class="calendar-header">Wednesday</div>
+                <div class="calendar-header">Thursday</div>
+                <div class="calendar-header">Friday</div>
+                <div class="calendar-header">Saturday</div>
+                <div class="calendar-header">Sunday</div>
+
+                <!-- TIME SLOTS -->
+
+                {% for hour in range(6,23) %}
+
+                    <div class="time-slot time-label">
+
+                        {{hour}}:00
+
+                    </div>
+
+                    {% for day in range(7) %}
+
+                        <div class="time-slot">
+
+                            {% for task in tasks %}
+
+                                {% if task[4] %}
+
+                                    {% set task_hour = task[4][11:13]|int %}
+
+                                    {% if task_hour == hour %}
+
+                                        <div class="task-pill">
+
+                                            {{task[2]}}
+
+                                        </div>
+
+                                    {% endif %}
+
+                                {% endif %}
+
+                            {% endfor %}
+
+                        </div>
+
+                    {% endfor %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
 
     </div>
 

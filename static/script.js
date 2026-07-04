@@ -1,24 +1,65 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    if (!("Notification" in window)) {
+    createNotificationButton();
 
-        alert("Browser does not support notifications");
+    checkTasks();
+
+});
+
+function createNotificationButton() {
+
+    if (!("Notification" in window)) {
 
         return;
 
     }
 
-    Notification.requestPermission().then(permission => {
+    if (Notification.permission === "granted") {
 
-        if (permission === "granted") {
+        return;
 
-            checkTasks();
+    }
 
-        }
+    const btn = document.createElement("button");
+
+    btn.innerText = "🔔 Enable Notifications";
+
+    btn.style.position = "fixed";
+    btn.style.bottom = "90px";
+    btn.style.right = "20px";
+    btn.style.padding = "14px 18px";
+    btn.style.border = "none";
+    btn.style.borderRadius = "18px";
+    btn.style.background = "linear-gradient(135deg,#7c3aed,#ec4899)";
+    btn.style.color = "white";
+    btn.style.fontWeight = "bold";
+    btn.style.cursor = "pointer";
+    btn.style.zIndex = "9999";
+    btn.style.boxShadow = "0 6px 20px rgba(0,0,0,0.15)";
+
+    document.body.appendChild(btn);
+
+    btn.addEventListener("click", () => {
+
+        Notification.requestPermission().then(permission => {
+
+            if (permission === "granted") {
+
+                btn.remove();
+
+                new Notification("✅ Notifications Enabled", {
+
+                    body: "Aura reminders are now active!"
+
+                });
+
+            }
+
+        });
 
     });
 
-});
+}
 
 function checkTasks() {
 
@@ -46,11 +87,15 @@ function checkTasks() {
 
             const taskName = card.querySelector("h3").innerText;
 
-            new Notification("⏰ Aura Reminder", {
+            if (Notification.permission === "granted") {
 
-                body: `${taskName} is due soon!`
+                new Notification("⏰ Aura Reminder", {
 
-            });
+                    body: `${taskName} is due soon!`
+
+                });
+
+            }
 
         }
 
