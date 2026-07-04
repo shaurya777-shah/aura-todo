@@ -5,6 +5,8 @@
 
     <title>Aura Dashboard</title>
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
 </head>
@@ -105,7 +107,25 @@
 
                 <p>{{task.subject}}</p>
 
-                <p>{{task.due}}</p>
+                <p>
+
+                    📅
+
+                    {% if task.due != "No Due Date" %}
+
+                        {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
+
+                        •
+
+                        {{ task.due[11:16] }}
+
+                    {% else %}
+
+                        No Due Date
+
+                    {% endif %}
+
+                </p>
 
             </div>
 

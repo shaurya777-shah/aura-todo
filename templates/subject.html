@@ -84,8 +84,23 @@
                         <h3>{{task[2]}}</h3>
 
                         <p>
-                            Due:
-                            {{task[4] if task[4] else "No Due Date"}}
+
+                            📅
+
+                            {% if task[4] %}
+
+                                {{ task[4][8:10] }}/{{ task[4][5:7] }}/{{ task[4][0:4] }}
+
+                                •
+
+                                {{ task[4][11:16] }}
+
+                            {% else %}
+
+                                No Due Date
+
+                            {% endif %}
+
                         </p>
 
                     </div>
