@@ -1,8 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,sans-serif;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
 }
 
 body{
@@ -21,12 +27,71 @@ body{
 
     background-size:600% 600%;
 
-    animation:gradientFlow 18s ease infinite;
+    animation:
+    gradientFlow 18s ease infinite,
+    pageFade 0.7s ease;
 
     color:#1e293b;
 
-    padding-bottom:100px;
+    padding-bottom:120px;
+
+    overflow-x:hidden;
 }
+
+/* ---------------- BACKGROUND ORBS ---------------- */
+
+.bg-orb{
+    position:fixed;
+    border-radius:50%;
+    filter:blur(90px);
+    opacity:0.45;
+    z-index:-1;
+    animation:floatOrb 15s infinite ease-in-out;
+}
+
+.orb1{
+    width:320px;
+    height:320px;
+    background:#ff6ec7;
+    top:8%;
+    left:5%;
+}
+
+.orb2{
+    width:360px;
+    height:360px;
+    background:#60a5fa;
+    top:45%;
+    right:8%;
+    animation-delay:4s;
+}
+
+.orb3{
+    width:260px;
+    height:260px;
+    background:#a78bfa;
+    bottom:8%;
+    left:40%;
+    animation-delay:8s;
+}
+
+@keyframes floatOrb{
+
+    0%{
+        transform:translateY(0px) translateX(0px);
+    }
+
+    50%{
+        transform:translateY(-45px) translateX(35px);
+    }
+
+    100%{
+        transform:translateY(0px) translateX(0px);
+    }
+
+}
+
+/* ---------------- MAIN ANIMATIONS ---------------- */
 
 @keyframes gradientFlow{
 
@@ -51,27 +116,51 @@ body{
     }
 
 }
+
+@keyframes pageFade{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0px);
+    }
+
 }
 
 /* ---------------- TOPBAR ---------------- */
 
 .topbar{
+
     width:100%;
-    background:rgba(255,255,255,0.75);
-    backdrop-filter:blur(12px);
-    padding:20px;
+
+    background:rgba(255,255,255,0.45);
+
+    backdrop-filter:blur(16px);
+
+    border-bottom:1px solid rgba(255,255,255,0.25);
+
+    padding:20px 30px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    box-shadow:0 4px 20px rgba(0,0,0,0.08);
+
     position:sticky;
     top:0;
-    z-index:100;
+
+    z-index:1000;
+
+    box-shadow:0 8px 30px rgba(0,0,0,0.05);
 }
 
 .topbar h1{
     font-size:32px;
     color:#7c3aed;
+    font-weight:700;
 }
 
 /* ---------------- BUTTONS ---------------- */
@@ -79,14 +168,24 @@ body{
 .nav-btn,
 .logout-btn,
 .done-btn{
+
     text-decoration:none;
+
     color:white;
-    padding:12px 18px;
-    border-radius:14px;
-    font-weight:bold;
-    margin-left:10px;
-    transition:0.3s;
+
+    padding:12px 20px;
+
+    border-radius:18px;
+
+    font-weight:600;
+
     display:inline-block;
+
+    margin-left:10px;
+
+    transition:0.35s ease;
+
+    box-shadow:0 6px 20px rgba(124,58,237,0.35);
 }
 
 .nav-btn{
@@ -104,16 +203,21 @@ body{
 .nav-btn:hover,
 .logout-btn:hover,
 .done-btn:hover{
-    transform:translateY(-3px) scale(1.03);
+
+    transform:
+    translateY(-4px)
+    scale(1.03);
+
+    box-shadow:0 10px 28px rgba(124,58,237,0.45);
 }
 
-/* ---------------- GRID ---------------- */
+/* ---------------- MAIN GRID ---------------- */
 
 .main-grid{
     display:grid;
     grid-template-columns:1fr 1fr;
     gap:25px;
-    padding:25px;
+    padding:30px;
 }
 
 @media(max-width:768px){
@@ -124,14 +228,34 @@ body{
 
 }
 
-/* ---------------- CARD ---------------- */
+/* ---------------- GLASS CARDS ---------------- */
 
 .card{
-    background:rgba(255,255,255,0.7);
-    backdrop-filter:blur(12px);
-    padding:25px;
-    border-radius:28px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.08);
+
+    background:rgba(255,255,255,0.55);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.25);
+
+    padding:28px;
+
+    border-radius:32px;
+
+    box-shadow:
+    0 8px 32px rgba(31,38,135,0.15);
+
+    transition:0.35s ease;
+}
+
+.card:hover{
+
+    transform:
+    translateY(-5px)
+    scale(1.01);
+
+    box-shadow:
+    0 16px 40px rgba(31,38,135,0.18);
 }
 
 .card h2{
@@ -139,97 +263,155 @@ body{
     color:#7c3aed;
 }
 
-/* ---------------- FORM ---------------- */
+/* ---------------- FORMS ---------------- */
 
 form{
     display:flex;
     flex-direction:column;
-    gap:16px;
+    gap:18px;
 }
 
 input,
 select,
 button{
     border:none;
-    padding:15px;
-    border-radius:16px;
+    padding:16px;
+    border-radius:18px;
     font-size:16px;
+    outline:none;
 }
 
 input,
 select{
-    background:#ffffff;
-    box-shadow:0 2px 10px rgba(0,0,0,0.05);
+
+    background:rgba(255,255,255,0.8);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,0.3);
+
+    box-shadow:0 4px 14px rgba(0,0,0,0.04);
 }
 
 button{
+
     background:linear-gradient(135deg,#7c3aed,#ec4899);
+
     color:white;
+
+    font-weight:600;
+
     cursor:pointer;
-    font-weight:bold;
-    transition:0.3s;
+
+    transition:0.35s ease;
+
+    box-shadow:0 8px 24px rgba(124,58,237,0.35);
 }
 
 button:hover{
-    transform:scale(1.03);
+
+    transform:
+    translateY(-3px)
+    scale(1.02);
+
+    box-shadow:0 12px 30px rgba(124,58,237,0.45);
 }
 
 /* ---------------- SUBJECTS ---------------- */
 
 .subjects-grid{
     display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-    gap:16px;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:18px;
 }
 
 .subject-box{
+
     text-decoration:none;
+
     color:white;
-    padding:22px;
-    border-radius:22px;
+
+    padding:24px;
+
+    border-radius:24px;
+
     text-align:center;
-    font-weight:bold;
-    transition:0.3s;
-    background:linear-gradient(135deg,#60a5fa,#a78bfa,#f472b6);
-    box-shadow:0 6px 20px rgba(0,0,0,0.08);
+
+    font-weight:600;
+
+    transition:0.35s ease;
+
+    background:
+    linear-gradient(
+        135deg,
+        #60a5fa,
+        #a78bfa,
+        #f472b6
+    );
+
+    box-shadow:
+    0 8px 24px rgba(0,0,0,0.1);
 }
 
 .subject-box:hover{
-    transform:translateY(-5px) scale(1.03);
+
+    transform:
+    translateY(-6px)
+    scale(1.03);
+
+    box-shadow:
+    0 14px 35px rgba(124,58,237,0.25);
 }
 
 /* ---------------- TASKS ---------------- */
 
 .tasks-section{
-    padding:25px;
+    padding:30px;
 }
 
 .tasks-section h2{
-    margin-bottom:20px;
+    margin-bottom:22px;
     color:#7c3aed;
-    font-size:28px;
+    font-size:30px;
 }
 
 .task-card{
-    background:rgba(255,255,255,0.75);
-    backdrop-filter:blur(12px);
-    padding:22px;
-    border-radius:24px;
-    margin-bottom:20px;
+
+    background:rgba(255,255,255,0.65);
+
+    backdrop-filter:blur(18px);
+
+    padding:24px;
+
+    border-radius:28px;
+
+    margin-bottom:22px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    box-shadow:0 8px 25px rgba(0,0,0,0.08);
-    transition:0.3s;
+
+    border:1px solid rgba(255,255,255,0.25);
+
+    box-shadow:
+    0 8px 32px rgba(31,38,135,0.12);
+
+    transition:0.35s ease;
 }
 
 .task-card:hover{
-    transform:translateY(-4px);
+
+    transform:
+    translateY(-6px)
+    scale(1.01);
+
+    box-shadow:
+    0 16px 40px rgba(31,38,135,0.18);
 }
 
 .task-card h3{
-    margin-bottom:8px;
     font-size:22px;
+    margin-bottom:8px;
 }
 
 .task-card p{
@@ -238,7 +420,7 @@ button:hover{
     font-size:15px;
 }
 
-/* ---------------- STATUS ---------------- */
+/* ---------------- STATUS COLORS ---------------- */
 
 .overdue{
     border-left:8px solid #ef4444;
@@ -252,30 +434,199 @@ button:hover{
     border-left:8px solid #22c55e;
 }
 
+/* ---------------- FLOATING ADD BUTTON ---------------- */
+
+.floating-add-btn{
+
+    position:fixed;
+
+    bottom:100px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:72px;
+    height:72px;
+
+    border:none;
+
+    border-radius:50%;
+
+    font-size:42px;
+
+    color:white;
+
+    cursor:pointer;
+
+    z-index:1001;
+
+    background:
+    linear-gradient(
+        135deg,
+        #7c3aed,
+        #ec4899
+    );
+
+    box-shadow:
+    0 10px 35px rgba(124,58,237,0.4);
+
+    transition:0.35s ease;
+}
+
+.floating-add-btn:hover{
+
+    transform:
+    translateX(-50%)
+    scale(1.08)
+    rotate(90deg);
+
+}
+
+/* ---------------- MODAL ---------------- */
+
+.task-modal{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.35);
+
+    backdrop-filter:blur(10px);
+
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:0.35s ease;
+
+    z-index:2000;
+}
+
+.show-modal{
+
+    opacity:1;
+
+    pointer-events:auto;
+}
+
+.task-modal-content{
+
+    width:90%;
+    max-width:500px;
+
+    background:rgba(255,255,255,0.6);
+
+    backdrop-filter:blur(20px);
+
+    border:1px solid rgba(255,255,255,0.25);
+
+    border-radius:35px;
+
+    padding:30px;
+
+    transform:
+    translateY(30px)
+    scale(0.95);
+
+    transition:0.35s ease;
+}
+
+.show-modal .task-modal-content{
+
+    transform:
+    translateY(0px)
+    scale(1);
+}
+
+.modal-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+.close-modal{
+
+    width:45px;
+    height:45px;
+
+    border:none;
+
+    border-radius:50%;
+
+    font-size:20px;
+
+    cursor:pointer;
+
+    background:#f3f4f6;
+
+    color:#7c3aed;
+}
+
 /* ---------------- MOBILE NAV ---------------- */
 
 .mobile-nav{
+
     position:fixed;
-    bottom:0;
-    left:0;
-    width:100%;
-    background:rgba(255,255,255,0.85);
-    backdrop-filter:blur(12px);
+
+    bottom:15px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    width:92%;
+
+    background:rgba(255,255,255,0.45);
+
+    backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,0.25);
+
     display:flex;
+
     justify-content:space-around;
-    padding:14px 0;
-    box-shadow:0 -4px 20px rgba(0,0,0,0.08);
+
+    padding:16px 0;
+
+    border-radius:28px;
+
+    box-shadow:
+    0 8px 30px rgba(0,0,0,0.08);
+
     z-index:1000;
 }
 
 .mobile-nav a{
+
     text-decoration:none;
+
     color:#7c3aed;
+
     display:flex;
+
     flex-direction:column;
+
     align-items:center;
-    font-weight:bold;
-    font-size:14px;
+
+    font-weight:600;
+
+    transition:0.3s ease;
+}
+
+.mobile-nav a:hover{
+    transform:translateY(-3px);
 }
 
 .mobile-nav span{
@@ -310,6 +661,10 @@ button:hover{
     .done-btn{
         width:100%;
         text-align:center;
+    }
+
+    .tasks-section{
+        padding:20px;
     }
 
 }

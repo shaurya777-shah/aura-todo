@@ -157,6 +157,63 @@
         {% endif %}
 
     </div>
+<!-- FLOATING ADD BUTTON -->
+
+<button class="floating-add-btn" onclick="openModal()">
+    +
+</button>
+
+<!-- MODAL -->
+
+<div class="task-modal" id="taskModal">
+
+    <div class="task-modal-content">
+
+        <div class="modal-top">
+
+            <h2>✨ Add New Task</h2>
+
+            <button class="close-modal" onclick="closeModal()">
+                ✕
+            </button>
+
+        </div>
+
+        <form action="/add" method="POST">
+
+            <input
+                type="text"
+                name="task"
+                placeholder="Enter Task"
+                required
+            >
+
+            <select name="subject">
+
+                {% for s in subjects %}
+
+                <option value="{{s}}">
+                    {{s}}
+                </option>
+
+                {% endfor %}
+
+            </select>
+
+            <input
+                type="datetime-local"
+                name="due"
+            >
+
+            <button type="submit">
+                Add Task
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
 
     <div class="mobile-nav">
 
@@ -169,7 +226,25 @@
             📊
             <span>Exam</span>
         </a>
+<script>
 
+function openModal(){
+
+    document
+    .getElementById("taskModal")
+    .classList.add("show-modal");
+
+}
+
+function closeModal(){
+
+    document
+    .getElementById("taskModal")
+    .classList.remove("show-modal");
+
+}
+
+</script>
     </div>
 
 </body>
