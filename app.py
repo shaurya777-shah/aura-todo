@@ -147,6 +147,8 @@ def dashboard():
         due_raw = r[4]
         status = "ok"
 
+        due_sort = datetime.max
+
         if due_raw and due_raw.strip():
 
             try:
@@ -155,6 +157,8 @@ def dashboard():
                     due_raw,
                     "%Y-%m-%dT%H:%M"
                 )
+
+                due_sort = due
 
                 diff = (due - now).total_seconds() / 3600
 
@@ -183,8 +187,11 @@ def dashboard():
             "task": r[2],
             "subject": r[3],
             "due": due_raw if due_raw else "No Due Date",
-            "status": status
+            "status": status,
+            "sort_due": due_sort
         })
+
+    tasks.sort(key=lambda x: x["sort_due"])
 
     return render_template(
         "dashboard.html",
