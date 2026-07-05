@@ -1,119 +1,59 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-    <title>Exam Analyzer</title>
+<div class="topbar">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h1>
+        📝 Exam Tracker
+    </h1>
 
-</head>
+    <a href="/dashboard" class="nav-btn">
+        Dashboard
+    </a>
 
-<body>
+</div>
 
-    <div class="topbar">
+<div class="card exam-card">
 
-        <h1>📘 Exam Analyzer</h1>
+    <h2>
+        Enter Marks
+    </h2>
 
-        <div>
+    <form method="POST">
 
-            <a href="/dashboard" class="nav-btn">
-                Dashboard
-            </a>
+        {% for subject in subjects %}
 
-            <a href="/logout" class="logout-btn">
-                Logout
-            </a>
+        <input
+            type="number"
+            name="{{subject}}"
+            placeholder="{{subject}} Marks"
+        >
 
-        </div>
+        {% endfor %}
 
-    </div>
+        <button type="submit">
+            Calculate
+        </button>
 
-    <div class="exam-container">
+    </form>
 
-        <div class="card">
+    {% if result %}
 
-            <h2>Enter Your Marks</h2>
+    <div class="result-box">
 
-            <form method="POST">
+        <h3>
+            📊 Average: {{result.avg}}
+        </h3>
 
-                {% for subject in subjects %}
-
-                <label>{{subject}}</label>
-
-                <input
-                    type="number"
-                    name="{{subject}}"
-                    placeholder="Enter marks"
-                    min="0"
-                    max="100"
-                    required
-                >
-
-                {% endfor %}
-
-                <button type="submit">
-                    Analyze Performance
-                </button>
-
-            </form>
-
-        </div>
-
-        {% if result %}
-
-        <div class="card result-card">
-
-            <h2>📊 Your Result</h2>
-
-            <h3>
-                Average Score:
-            </h3>
-
-            <p class="big-text">
-                {{result.avg}}%
-            </p>
-
-            <h3>
-                Subject To Focus More:
-            </h3>
-
-            <p class="weak-subject">
-                {{result.weakest}}
-            </p>
-
-            <div class="tips-box">
-
-                <h3>💡 Recommendations</h3>
-
-                <ul>
-
-                    <li>
-                        Study {{result.weakest}} at least 30 mins daily
-                    </li>
-
-                    <li>
-                        Revise weak chapters more often
-                    </li>
-
-                    <li>
-                        Practice previous exam papers
-                    </li>
-
-                    <li>
-                        Track your progress weekly
-                    </li>
-
-                </ul>
-
-            </div>
-
-        </div>
-
-        {% endif %}
+        <h3>
+            ⚠ Weakest Subject: {{result.weakest}}
+        </h3>
 
     </div>
 
-</body>
+    {% endif %}
 
-</html>
+</div>
+
+{% endblock %}

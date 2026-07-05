@@ -10,47 +10,7 @@
         ✨ Aura Dashboard
     </h1>
 
-    <div class="nav-menu">
-
-        <a href="/dashboard" class="nav-btn">
-            Dashboard
-        </a>
-
-        <div class="dropdown">
-
-            <button class="dropbtn">
-                Subjects ▼
-            </button>
-
-            <div class="dropdown-content">
-
-                <a href="/subject/Maths">
-                    Maths
-                </a>
-
-                <a href="/subject/Science">
-                    Science
-                </a>
-
-                <a href="/subject/English">
-                    English
-                </a>
-
-                <a href="/subject/Hindi">
-                    Hindi
-                </a>
-
-                <a href="/subject/Gujarati">
-                    Gujarati
-                </a>
-
-                <a href="/subject/SS">
-                    SS
-                </a>
-
-            </div>
-
-        </div>
+    <div>
 
         <a href="/exam" class="nav-btn">
             Exam
@@ -87,29 +47,13 @@
 
             <select name="subject" required>
 
-                <option value="Maths">
-                    Maths
+                {% for subject in subjects %}
+
+                <option value="{{subject}}">
+                    {{subject}}
                 </option>
 
-                <option value="Science">
-                    Science
-                </option>
-
-                <option value="English">
-                    English
-                </option>
-
-                <option value="Hindi">
-                    Hindi
-                </option>
-
-                <option value="Gujarati">
-                    Gujarati
-                </option>
-
-                <option value="SS">
-                    SS
-                </option>
+                {% endfor %}
 
             </select>
 
@@ -136,29 +80,16 @@
 
         <div class="subjects-grid">
 
-            <a href="/subject/Maths" class="subject-box">
-                Maths
+            {% for subject in subjects %}
+
+            <a
+                href="/subject/{{subject}}"
+                class="subject-box"
+            >
+                {{subject}}
             </a>
 
-            <a href="/subject/Science" class="subject-box">
-                Science
-            </a>
-
-            <a href="/subject/English" class="subject-box">
-                English
-            </a>
-
-            <a href="/subject/Hindi" class="subject-box">
-                Hindi
-            </a>
-
-            <a href="/subject/Gujarati" class="subject-box">
-                Gujarati
-            </a>
-
-            <a href="/subject/SS" class="subject-box">
-                SS
-            </a>
+            {% endfor %}
 
         </div>
 
@@ -220,104 +151,5 @@
     {% endif %}
 
 </div>
-
-<!-- FLOATING BUTTON -->
-
-<!-- FLOATING BUTTON -->
-
-<button
-    class="floating-add-btn"
-    onclick="openTaskPopup()"
->
-    +
-</button>
-
-<!-- POPUP -->
-
-<div
-    id="taskPopup"
-    class="popup-overlay"
->
-
-    <div class="popup-box">
-
-        <span
-            class="close-popup"
-            onclick="closeTaskPopup()"
-        >
-            ✖
-        </span>
-
-        <h2>
-            ➕ Add Task
-        </h2>
-
-        <form action="/add" method="POST">
-
-            <input
-                type="text"
-                name="task"
-                placeholder="Enter Task"
-                required
-            >
-
-            <select name="subject" required>
-
-                <option value="Maths">
-                    Maths
-                </option>
-
-                <option value="Science">
-                    Science
-                </option>
-
-                <option value="English">
-                    English
-                </option>
-
-                <option value="Hindi">
-                    Hindi
-                </option>
-
-                <option value="Gujarati">
-                    Gujarati
-                </option>
-
-                <option value="SS">
-                    SS
-                </option>
-
-            </select>
-
-            <input
-                type="datetime-local"
-                name="due"
-            >
-
-            <button type="submit">
-                Add Task
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-<script>
-
-function openTaskPopup(){
-
-    document.getElementById("taskPopup").style.display = "flex";
-
-}
-
-function closeTaskPopup(){
-
-    document.getElementById("taskPopup").style.display = "none";
-
-}
-
-</script>
 
 {% endblock %}

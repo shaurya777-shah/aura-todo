@@ -1,213 +1,62 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-    <title>{{subject}}</title>
+<div class="topbar">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <h1>
+        📚 {{subject}}
+    </h1>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <a href="/dashboard" class="nav-btn">
+        Dashboard
+    </a>
 
-    <style>
+</div>
 
-        .weekly-calendar{
-            margin-top:40px;
-            overflow-x:auto;
-        }
+<div class="tasks-section">
 
-        .calendar-grid{
-            display:grid;
-            grid-template-columns:120px repeat(7,1fr);
-            min-width:1000px;
-            background:rgba(255,255,255,0.7);
-            backdrop-filter:blur(12px);
-            border-radius:25px;
-            overflow:hidden;
-            box-shadow:0 8px 30px rgba(0,0,0,0.08);
-        }
+    {% if tasks %}
 
-        .calendar-header{
-            background:linear-gradient(135deg,#60a5fa,#a78bfa);
-            color:white;
-            padding:16px;
-            text-align:center;
-            font-weight:bold;
-            border:1px solid rgba(255,255,255,0.2);
-        }
+        {% for task in tasks %}
 
-        .time-slot{
-            background:rgba(255,255,255,0.8);
-            padding:18px;
-            border:1px solid rgba(0,0,0,0.05);
-            min-height:80px;
-            position:relative;
-        }
+        <div class="task-card">
 
-        .time-label{
-            font-weight:bold;
-            color:#7c3aed;
-            background:#f8fafc;
-        }
+            <div>
 
-        .task-pill{
-            background:linear-gradient(135deg,#34d399,#10b981);
-            color:white;
-            padding:8px;
-            border-radius:12px;
-            font-size:13px;
-            margin-top:5px;
-            box-shadow:0 4px 10px rgba(0,0,0,0.08);
-        }
+                <h3>
+                    {{task[2]}}
+                </h3>
 
-    </style>
+                <p>
+                    ⏰ {{task[4]}}
+                </p>
 
-</head>
+            </div>
 
-<body>
-
-    <div class="topbar">
-
-        <h1>📚 {{subject}}</h1>
-
-        <div>
-
-            <a href="/dashboard" class="nav-btn">
-                Dashboard
+            <a
+                href="/done/{{task[0]}}"
+                class="done-btn"
+            >
+                ✅ Done
             </a>
 
         </div>
 
-    </div>
+        {% endfor %}
 
-    <div class="tasks-section">
+    {% else %}
 
-        <h2>{{subject}} Tasks</h2>
+        <div class="card">
 
-        {% if tasks %}
-
-            {% for task in tasks %}
-
-            <div class="task-card">
-
-                <div>
-
-                    <h3>{{task[2]}}</h3>
-
-                    <p>
-
-                        📅
-
-                        {% if task[4] %}
-
-                            {{ task[4][8:10] }}/{{ task[4][5:7] }}/{{ task[4][0:4] }}
-
-                            •
-
-                            {{ task[4][11:16] }}
-
-                        {% else %}
-
-                            No Due Date
-
-                        {% endif %}
-
-                    </p>
-
-                </div>
-
-            </div>
-
-            {% endfor %}
-
-        {% else %}
-
-            <div class="card">
-
-                <h3>No tasks added yet</h3>
-
-            </div>
-
-        {% endif %}
-
-        <div class="weekly-calendar">
-
-            <h2 style="margin-bottom:20px;color:#7c3aed;">
-                📅 Weekly Schedule
-            </h2>
-
-            <div class="calendar-grid">
-
-                <div class="calendar-header">
-                    Time
-                </div>
-
-                <div class="calendar-header">Monday</div>
-                <div class="calendar-header">Tuesday</div>
-                <div class="calendar-header">Wednesday</div>
-                <div class="calendar-header">Thursday</div>
-                <div class="calendar-header">Friday</div>
-                <div class="calendar-header">Saturday</div>
-                <div class="calendar-header">Sunday</div>
-
-                {% for hour in range(6,23) %}
-
-                    <div class="time-slot time-label">
-
-                        {{hour}}:00
-
-                    </div>
-
-                    {% for day in range(7) %}
-
-                        <div class="time-slot">
-
-                            {% for task in tasks %}
-
-                                {% if task[4] %}
-
-                                    {% set task_hour = task[4][11:13]|int %}
-
-                                    {% if task_hour == hour %}
-
-                                        <div class="task-pill">
-
-                                            {{task[2]}}
-
-                                        </div>
-
-                                    {% endif %}
-
-                                {% endif %}
-
-                            {% endfor %}
-
-                        </div>
-
-                    {% endfor %}
-
-                {% endfor %}
-
-            </div>
+            <p>
+                No tasks added yet 🚀
+            </p>
 
         </div>
 
-    </div>
+    {% endif %}
 
-    <div class="mobile-nav">
+</div>
 
-        <a href="/dashboard">
-            🏠
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/exam">
-            📊
-            <span>Exam</span>
-        </a>
-
-    </div>
-
-</body>
-
-</html>
+{% endblock %}
