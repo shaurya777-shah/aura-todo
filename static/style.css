@@ -440,11 +440,9 @@ button:hover{
 
     position:fixed;
 
-    bottom:100px;
+    right:30px;
 
-    left:50%;
-
-    transform:translateX(-50%);
+    top:500px;
 
     width:72px;
     height:72px;
@@ -471,7 +469,9 @@ button:hover{
     box-shadow:
     0 10px 35px rgba(124,58,237,0.4);
 
-    transition:0.35s ease;
+    transition:
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 
     display:flex;
 
@@ -479,15 +479,17 @@ button:hover{
 
     align-items:center;
 
-    padding-bottom:4px;
+    line-height:1;
+
+    padding:0;
 }
 
 .floating-add-btn:hover{
 
-    transform:
-    translateX(-50%)
-    scale(1.08)
-    rotate(90deg);
+    transform:scale(1.08);
+
+    box-shadow:
+    0 15px 40px rgba(124,58,237,0.5);
 
 }
 
@@ -679,4 +681,16 @@ button:hover{
         padding:20px;
     }
 
+    .floating-add-btn{
+
+    position:fixed;
+
+    bottom:100px;
+
+    right:20px;
+
+    top:auto;
+
+    width:68px;
+    height:68px;
 }
