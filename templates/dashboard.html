@@ -1,183 +1,80 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
+{% block content %}
 
-    <title>Aura Dashboard</title>
+<!-- TOPBAR -->
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div class="topbar">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h1>
+        ✨ Aura Dashboard
+    </h1>
 
-</head>
+    <div class="nav-menu">
 
-<body>
+        <a href="/dashboard" class="nav-btn">
+            Dashboard
+        </a>
 
-    <div class="topbar">
+        <div class="dropdown">
 
-        <h1>✨ Aura Dashboard</h1>
-
-        <div>
-
-            <a href="/exam" class="nav-btn">
-                Exam
-            </a>
-
-            <a href="/logout" class="logout-btn">
-                Logout
-            </a>
-
-        </div>
-
-    </div>
-
-    <div class="main-grid">
-
-        <div class="card">
-
-            <h2>➕ Add Task</h2>
-
-            <form action="/add" method="POST">
-
-                <input
-                    type="text"
-                    name="task"
-                    placeholder="Enter Task"
-                    required
-                >
-
-                <select name="subject">
-
-                    {% for s in subjects %}
-
-                    <option value="{{s}}">
-                        {{s}}
-                    </option>
-
-                    {% endfor %}
-
-                </select>
-
-                <input
-                    type="datetime-local"
-                    name="due"
-                >
-
-                <button type="submit">
-                    Add Task
-                </button>
-
-            </form>
-
-        </div>
-
-        <div class="card">
-
-            <h2>📚 Subjects</h2>
-
-            <div class="subjects-grid">
-
-                {% for s in subjects %}
-
-                <a
-                    href="/subject/{{s}}"
-                    class="subject-box"
-                >
-                    {{s}}
-                </a>
-
-                {% endfor %}
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div class="tasks-section">
-
-        <h2>📌 Upcoming Tasks</h2>
-
-        {% if tasks %}
-
-            {% for task in tasks %}
-
-            <div class="task-card {{task.status}}">
-
-                <div>
-
-                    <h3>{{task.task}}</h3>
-
-                    <p>📚 {{task.subject}}</p>
-
-                    <p
-                        class="due-time"
-                        data-raw="{{task.due}}"
-                    >
-
-                        📅
-
-                        {% if task.due != "No Due Date" %}
-
-                            {{ task.due[8:10] }}/{{ task.due[5:7] }}/{{ task.due[0:4] }}
-
-                            •
-
-                            {{ task.due[11:16] }}
-
-                        {% else %}
-
-                            No Due Date
-
-                        {% endif %}
-
-                    </p>
-
-                </div>
-
-                <a
-                    href="/done/{{task.id}}"
-                    class="done-btn"
-                >
-                    Done
-                </a>
-
-            </div>
-
-            {% endfor %}
-
-        {% else %}
-
-            <div class="card">
-
-                <h3>No tasks yet</h3>
-
-            </div>
-
-        {% endif %}
-
-    </div>
-<!-- FLOATING ADD BUTTON -->
-
-<button class="floating-add-btn" onclick="openModal()">
-    +
-</button>
-
-<!-- MODAL -->
-
-<div class="task-modal" id="taskModal">
-
-    <div class="task-modal-content">
-
-        <div class="modal-top">
-
-            <h2>✨ Add New Task</h2>
-
-            <button class="close-modal" onclick="closeModal()">
-                ✕
+            <button class="dropbtn">
+                Subjects ▼
             </button>
 
+            <div class="dropdown-content">
+
+                <a href="/subject/Maths">
+                    Maths
+                </a>
+
+                <a href="/subject/Science">
+                    Science
+                </a>
+
+                <a href="/subject/English">
+                    English
+                </a>
+
+                <a href="/subject/Hindi">
+                    Hindi
+                </a>
+
+                <a href="/subject/Gujarati">
+                    Gujarati
+                </a>
+
+                <a href="/subject/SS">
+                    SS
+                </a>
+
+            </div>
+
         </div>
+
+        <a href="/exam" class="nav-btn">
+            Exam
+        </a>
+
+        <a href="/logout" class="logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+<!-- MAIN GRID -->
+
+<div class="main-grid">
+
+    <!-- ADD TASK -->
+
+    <div class="card">
+
+        <h2>
+            ➕ Add Task
+        </h2>
 
         <form action="/add" method="POST">
 
@@ -188,15 +85,207 @@
                 required
             >
 
-            <select name="subject">
+            <select name="subject" required>
 
-                {% for s in subjects %}
-
-                <option value="{{s}}">
-                    {{s}}
+                <option value="Maths">
+                    Maths
                 </option>
 
-                {% endfor %}
+                <option value="Science">
+                    Science
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="Gujarati">
+                    Gujarati
+                </option>
+
+                <option value="SS">
+                    SS
+                </option>
+
+            </select>
+
+            <input
+                type="datetime-local"
+                name="due"
+            >
+
+            <button type="submit">
+                Add Task
+            </button>
+
+        </form>
+
+    </div>
+
+    <!-- SUBJECTS -->
+
+    <div class="card">
+
+        <h2>
+            📚 Subjects
+        </h2>
+
+        <div class="subjects-grid">
+
+            <a href="/subject/Maths" class="subject-box">
+                Maths
+            </a>
+
+            <a href="/subject/Science" class="subject-box">
+                Science
+            </a>
+
+            <a href="/subject/English" class="subject-box">
+                English
+            </a>
+
+            <a href="/subject/Hindi" class="subject-box">
+                Hindi
+            </a>
+
+            <a href="/subject/Gujarati" class="subject-box">
+                Gujarati
+            </a>
+
+            <a href="/subject/SS" class="subject-box">
+                SS
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- TASKS -->
+
+<div class="tasks-section">
+
+    <h2>
+        ⏰ Upcoming Tasks
+    </h2>
+
+    {% if tasks %}
+
+        {% for task in tasks %}
+
+        <div class="task-card {{task.status}}">
+
+            <div>
+
+                <h3>
+                    {{task.task}}
+                </h3>
+
+                <p>
+                    📘 {{task.subject}}
+                </p>
+
+                <p>
+                    ⏰ {{task.due}}
+                </p>
+
+            </div>
+
+            <a
+                href="/done/{{task.id}}"
+                class="done-btn"
+            >
+                ✅ Done
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card">
+
+            <p>
+                No tasks yet 🚀
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+<!-- FLOATING BUTTON -->
+
+<!-- FLOATING BUTTON -->
+
+<button
+    class="floating-add-btn"
+    onclick="openTaskPopup()"
+>
+    +
+</button>
+
+<!-- POPUP -->
+
+<div
+    id="taskPopup"
+    class="popup-overlay"
+>
+
+    <div class="popup-box">
+
+        <span
+            class="close-popup"
+            onclick="closeTaskPopup()"
+        >
+            ✖
+        </span>
+
+        <h2>
+            ➕ Add Task
+        </h2>
+
+        <form action="/add" method="POST">
+
+            <input
+                type="text"
+                name="task"
+                placeholder="Enter Task"
+                required
+            >
+
+            <select name="subject" required>
+
+                <option value="Maths">
+                    Maths
+                </option>
+
+                <option value="Science">
+                    Science
+                </option>
+
+                <option value="English">
+                    English
+                </option>
+
+                <option value="Hindi">
+                    Hindi
+                </option>
+
+                <option value="Gujarati">
+                    Gujarati
+                </option>
+
+                <option value="SS">
+                    SS
+                </option>
 
             </select>
 
@@ -215,38 +304,20 @@
 
 </div>
 
-    <div class="mobile-nav">
-
-        <a href="/dashboard">
-            🏠
-            <span>Dashboard</span>
-        </a>
-
-        <a href="/exam">
-            📊
-            <span>Exam</span>
-        </a>
 <script>
 
-function openModal(){
+function openTaskPopup(){
 
-    document
-    .getElementById("taskModal")
-    .classList.add("show-modal");
+    document.getElementById("taskPopup").style.display = "flex";
 
 }
 
-function closeModal(){
+function closeTaskPopup(){
 
-    document
-    .getElementById("taskModal")
-    .classList.remove("show-modal");
+    document.getElementById("taskPopup").style.display = "none";
 
 }
 
 </script>
-    </div>
 
-</body>
-
-</html>
+{% endblock %}
